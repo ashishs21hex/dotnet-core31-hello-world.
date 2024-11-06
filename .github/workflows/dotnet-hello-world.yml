@@ -18,13 +18,22 @@ jobs:
         with:
           dotnet-version: '3.1.x'
 
-      - name: Create .NET Core 3.1 project
+      - name: Verify workspace directory exists
         run: |
-          dotnet new console -o ${{ github.workspace }}/HelloWorldApp
-          echo 'Console.WriteLine("Hello, World!");' > ${{ github.workspace }}/HelloWorldApp/Program.cs
+          echo "Workspace directory: ${{ github.workspace }}"
+          if [ -d "${{ github.workspace }}" ]; then echo "Workspace exists"; else echo "Workspace missing"; fi
+
+      - name: Create .NET Core 3.1 project in HelloWorldApp
+        run: |
+          dotnet new console -o "${{ github.workspace }}/HelloWorldApp"
+          echo 'Console.WriteLine("Hello, World!");' > "${{ github.workspace }}/HelloWorldApp/Program.cs"
+        
+      - name: Verify HelloWorldApp directory exists
+        run: |
+          if [ -d "${{ github.workspace }}/HelloWorldApp" ]; then echo "HelloWorldApp directory exists"; else echo "HelloWorldApp missing"; fi
 
       - name: Build the project
-        run: dotnet build ${{ github.workspace }}/HelloWorldApp
+        run: dotnet build "${{ github.workspace }}/HelloWorldApp"
 
       - name: Run the application
-        run: dotnet run --project ${{ github.workspace }}/HelloWorldApp
+        run: dotnet run --project "${{ github.workspace }}/HelloWorldApp"
