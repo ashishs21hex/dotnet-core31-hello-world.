@@ -1,0 +1,30 @@
+name: .NET Core 3.1 Hello World
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Core 3.1 SDK
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '3.1.x'
+
+      - name: Create .NET Core 3.1 project
+        run: |
+          dotnet new console -o HelloWorldApp
+          echo 'Console.WriteLine("Hello, World!");' > HelloWorldApp/Program.cs
+
+      - name: Build the project
+        run: dotnet build HelloWorldApp
+
+      - name: Run the application
+        run: dotnet run --project HelloWorldApp
