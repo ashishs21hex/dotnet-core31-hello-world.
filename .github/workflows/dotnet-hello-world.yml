@@ -20,13 +20,11 @@ jobs:
 
       - name: Create .NET Core 3.1 project
         run: |
-          mkdir HelloWorldApp
-          cd HelloWorldApp
-          dotnet new console
-          echo 'Console.WriteLine("Hello, World!");' > Program.cs
+          dotnet new console -o ${{ github.workspace }}/HelloWorldApp
+          echo 'Console.WriteLine("Hello, World!");' > ${{ github.workspace }}/HelloWorldApp/Program.cs
 
       - name: Build the project
-        run: dotnet build HelloWorldApp
+        run: dotnet build ${{ github.workspace }}/HelloWorldApp
 
       - name: Run the application
-        run: dotnet run --project HelloWorldApp
+        run: dotnet run --project ${{ github.workspace }}/HelloWorldApp
