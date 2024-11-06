@@ -13,13 +13,37 @@ jobs:
       # Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Fetch all history for git
 
-      # Setup .NET Core 3.1 SDK
+      # Set up .NET Core 3.1 SDK
       - name: Setup .NET Core 3.1 SDK
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: '3.1.x'
 
-      # Verify directories and proceed with build steps...
+      # Print workspace directory
+      - name: Print GitHub workspace path
+        run: |
+          echo "Workspace directory: ${{ github.workspace }}"
+          echo "Current directory:"
+          dir
+
+      # Create a .NET Core project in a specific folder
+      - name: Create HelloWorldApp project
+        run: |
+          mkdir "${{ github.workspace }}\\HelloWorldApp"
+          dotnet new console -o "${{ github.workspace }}\\HelloWorldApp"
+          echo 'Console.WriteLine("Hello, World!");' > "${{ github.workspace }}\\HelloWorldApp\\Program.cs"
+
+      # List the contents of the HelloWorldApp folder to verify
+      - name: List contents of HelloWorldApp directory
+        run: |
+          echo "Contents of HelloWorldApp directory:"
+          dir "${{ github.workspace }}\\HelloWorldApp"
+
+      # Build the project
+      - name: Build HelloWorldApp
+        run: dotnet build "${{ github.workspace }}\\HelloWorldApp"
+
+      # Run the HelloWorldApp application
+      - name: Run HelloWorldApp
+        run: dotnet run --project "${{ github.workspace }}\\HelloWorldApp"
