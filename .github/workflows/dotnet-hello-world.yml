@@ -1,4 +1,26 @@
-- name: Print current working directory
-  run: |
-    echo "Workspace path: ${{ github.workspace }}"
-    dir
+name: Build .NET Core 3.1 Project
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    # Checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v4  # Make sure you use the correct checkout version
+
+    # Setup .NET SDK version 3.1
+    - name: Setup .NET Core 3.1 SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '3.1.x'  # Ensure it uses version 3.1.x
+
+    # Build the project (update this with your project path)
+    - name: Build the project
+      run: |
+        dotnet build ./MyProject/MyProject.csproj  # Use your actual project path
