@@ -20,8 +20,10 @@ jobs:
 
       - name: Create .NET Core 3.1 project
         run: |
-          dotnet new console -o HelloWorldApp
-          echo 'Console.WriteLine("Hello, World!");' > HelloWorldApp/Program.cs
+          mkdir HelloWorldApp
+          cd HelloWorldApp
+          dotnet new console
+          echo 'Console.WriteLine("Hello, World!");' > Program.cs
 
       - name: Build the project
         run: dotnet build HelloWorldApp
